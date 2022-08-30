@@ -44,3 +44,5 @@ int main(){
     cout << log[4] << "/";
     return 0;
 }
+
+// si esto funciona el señor vive
