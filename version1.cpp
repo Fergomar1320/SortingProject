@@ -5,6 +5,17 @@
 
 using namespace std;
 
+int diccionario(string mes){
+    vector<string> diccionario = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dic"};
+    int index = 0;
+    for (int i = 0; index == 0; i++){
+        if(mes == diccionario[i]){
+            index = i;
+        }
+    }
+    return index;
+}
+
 void separar(string linea, string arr[]){ 
     int inicio = 0, j = 0;
 
@@ -34,6 +45,7 @@ int main(){
         separar(resgistro, log);
 
     }*/
+    cout << "Esta en la posición " << diccionario("Mar") << endl;
     cout << "prueba" << endl;
     resgistro = "pepe pecas pica papas con ";
     separar(resgistro, log);
