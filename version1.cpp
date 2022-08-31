@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
@@ -17,26 +17,26 @@ int diccionario(string mes){
 }
 
 void lecturaArchivo(){
-    ifstream archivo;
-    archivo.open("bitacora.txt");
-    string mes;
-    if(archivo.is_open()){
-        while (archivo>>mes){
-            if (mes == "p"){
-                // archivo >> nombre >> sgenero >> sclasificacion >> anio >> rating >> director >> protagonista >> tiempo >> calificacion;
-                // Catalogo.push_back(new Pelicula(nombre, director, protagonista, sgenero, sclasificacion, anio, tiempo, rating, calificacion));
-            } else if (mes == "s"){
-                // archivo >> nombre >> sgenero >> sclasificacion >> director >> anio >> rating >> c1 >> c2 >> c3 >> t1 >> t2  >> t3 >> calificacion >> cl1 >> cl2 >> cl3;
-                // tiempo = t1 + t2 + t3;
-                // Catalogo.push_back(new Serie(nombre, director, sgenero, sclasificacion, anio, tiempo, rating, calificacion));
-                // Serie* ayuda = dynamic_cast<Serie*>(Catalogo.back());
-                // ayuda->agregaVideo(new Video(c1, director, anio, t1, cl1));
-                // ayuda->agregaVideo(new Video(c2, director, anio, t2, cl2));
-                // ayuda->agregaVideo(new Video(c3, director, anio, t3, cl3));
-                }
-            }
+    ifstream dataBase;
+    dataBase.open("bitacora.txt");
+    string month;
+    int day;
+    int hour;
+    int minute;
+    int second;
+    char sillyChar;
+    string errorType;
+    string line;
+    string errorDescription;
+
+    if(dataBase.is_open()){
+        while (!dataBase.eof( )){
+            dataBase >> month >> day >> hour >> sillyChar >> minute >> sillyChar >> second >> errorType;
+            getline(dataBase, errorDescription);
+            cout << month << " " << day << " " << hour << " " << minute << " " << second << " " << errorType << errorDescription << endl;
         }
-        archivo.close();
+        dataBase.close();
+    }
 }
 
 void separar(string linea, string arr[]){ 
@@ -69,6 +69,7 @@ int main(){
 
     }*/
     cout << "Esta en la posición " << diccionario("Mar") << endl;
+    lecturaArchivo();
     cout << "prueba" << endl;
     resgistro = "pepe pecas pica papas con ";
     separar(resgistro, log);
