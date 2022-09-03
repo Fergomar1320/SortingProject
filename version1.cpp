@@ -60,16 +60,12 @@ void separar(string linea, string arr[]){
 int main(){
     //ifstream archivoLog("bitacora.txt");
     string resgistro;
-
     string log[5];
     vector <string> myVector;
-
-    /*while(getline(archivoLog, resgistro)){
-        separar(resgistro, log);
-
-    }*/
     cout << "Esta en la posición " << diccionario("Mar") << endl;
     lecturaArchivo();
+    cout << "Los datos se leyeron Correctamente" << endl;
+    cout << "Empezando organización" << endl;
     cout << "prueba" << endl;
     resgistro = "pepe pecas pica papas con ";
     separar(resgistro, log);
