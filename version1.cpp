@@ -16,64 +16,62 @@ int diccionario(string mes){
     return index;
 }
 
-void lecturaArchivo(){
+void lecturaArchivo(vector <string> &data, vector <double> &dates){
     ifstream dataBase;
     dataBase.open("bitacora.txt");
     string month;
-    int day;
-    int hour;
-    int minute;
-    int second;
+    double day;
+    double hour;
+    double minute;
+    double second;
     char sillyChar;
     string errorType;
     string line;
     string errorDescription;
-
+    
     if(dataBase.is_open()){
         while (!dataBase.eof( )){
             dataBase >> month >> day >> hour >> sillyChar >> minute >> sillyChar >> second >> errorType;
             getline(dataBase, errorDescription);
-            cout << month << " " << day << " " << hour << " " << minute << " " << second << " " << errorType << errorDescription << endl;
+            float monthValue = diccionario(month);
+            float calculo = monthValue + (day/100) + (hour/1000) + (minute/10000) + (second/100000);
+            string completeLine = month + " " + to_string(day) + " " + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second) + " " + errorType + " " + errorDescription;
+            data.push_back(completeLine);
+            dates.push_back(calculo);
+            //cout << month << " " << day << " " << hour << " " << minute << " " << second << " " << errorType << errorDescription << endl;
         }
         dataBase.close();
     }
+    cout << "El archivo se leyó correctamente" << endl;
 }
 
-void separar(string linea, string arr[]){ 
-    int inicio = 0, j = 0;
-
-    for (int final=0; final < linea.length();){
-        cout << inicio <<" "<<final<<" "<<j<<arr[j]<<endl;
-        if(linea.at(final) != ' '){
-            final ++;
-        }else{
-            arr[j] = linea.substr(inicio, final);
-            
-            final++;
-            inicio = final;
-            j++;
-            
-        }
+void printData(vector <string> &data, vector <double> &dates){
+    for(int i=0;i<data.size();i++){
+        cout << data[i] << " " << dates[i] <<endl;
     }
 }
 
 int main(){
     //ifstream archivoLog("bitacora.txt");
     string resgistro;
+
     string log[5];
     vector <string> myVector;
-    cout << "Esta en la posición " << diccionario("Mar") << endl;
-    lecturaArchivo();
-    cout << "Los datos se leyeron Correctamente" << endl;
-    cout << "Empezando organización" << endl;
-    cout << "prueba" << endl;
-    resgistro = "pepe pecas pica papas con ";
-    separar(resgistro, log);
-    cout << log[0] << "/";
-    cout << log[1] << "/";
-    cout << log[2] << "/";
-    cout << log[3] << "/";
-    cout << log[4] << "/";
+    vector <string> data;
+    vector <double> dates;
+
+    lecturaArchivo(data, dates);
+    cout << "La lectura de archivos se ha realizado correctamente" << endl;
+    cout << "Organizando......" << endl;
+
+    // cout << "prueba" << endl;
+    // separar(resgistro, log);
+    // cout << &data << endl;
+    // cout << log[0] << "/";
+    // cout << log[1] << "/";
+    // cout << log[2] << "/";
+    // cout << log[3] << "/";
+    // cout << log[4] << "/";
     return 0;
 }
 
