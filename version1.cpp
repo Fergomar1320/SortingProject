@@ -121,6 +121,17 @@ void mergeSort(vector<double> &dates, vector<string> &data, int start, int end){
     }
 }
 
+void sequentialSearch(double day, string month, vector<double> &dates, vector<string> &data){
+    double numMonth = dictionary(month);
+    double calculusMax = numMonth + (day/100) + ((24*60*60)/100000000) + ((60*60)/100000000) + ((60)/100000000);;
+    double calculusMin = numMonth + (day/100);
+    for (int i = 0; i <= dates.size(); i++){
+        if (dates[i] > calculusMin && dates[i] < calculusMax){
+                cout << data[i] << endl;
+        }
+    }
+}
+
 
 int main(){
     vector <string> myVector;
@@ -135,6 +146,13 @@ int main(){
     writeFile(data);
     cout << "The data has been saved in the sortData.txt file" << endl;
     cout << "Which data would you like to search?" << endl;
+    string month;
+    double day;
+    cout << "Give me the month in english format, 3 initials and the first one in upper letter: " << endl;
+    cin >> month;
+    cout << "Give me the day you would like to see: " << endl;
+    cin >> day;
+    sequentialSearch(day, month, dates, data);
     //printData(data, dates); 
     return 0;
 }
