@@ -5,18 +5,18 @@
 
 using namespace std;
 
-int diccionario(string mes){
-    vector<string> diccionario = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dic"};
+int dictionary(string mes){
+    vector<string> dictionary = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dic"};
     int index = 0;
     for (int i = 0; index == 0; i++){
-        if(mes == diccionario[i]){
+        if(mes == dictionary[i]){
             index = i;
         }
     }
     return index;
 }
 
-void lecturaArchivo(vector <string> &data, vector <double> &dates){
+void fileReading(vector <string> &data, vector <double> &dates){
     ifstream dataBase;
     dataBase.open("bitacora.txt");
     string month;
@@ -33,9 +33,9 @@ void lecturaArchivo(vector <string> &data, vector <double> &dates){
         while (!dataBase.eof( )){
             dataBase >> month >> day >> hour >> sillyChar >> minute >> sillyChar >> second >> errorType;
             getline(dataBase, errorDescription);
-            float monthValue = diccionario(month);
+            float monthValue = dictionary(month);
             float calculo = monthValue + (day/100) + ((hour*60*60)/100000000) + ((minute*60)/100000000) + ((second)/100000000);
-            string completeLine = month + " " + to_string(day) + " " + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second); //+ " " + errorType + " " + errorDescription;
+            string completeLine = month + " " + to_string(static_cast<int>(day)) + " " + to_string(static_cast<int>(hour)) + ":" + to_string(static_cast<int>(minute)) + ":" + to_string(static_cast<int>(second)) + " " + errorType + errorDescription;
             data.push_back(completeLine);
             dates.push_back(calculo);
             //cout << month << " " << day << " " << hour << " " << minute << " " << second << " " << errorType << errorDescription << endl;
@@ -45,33 +45,45 @@ void lecturaArchivo(vector <string> &data, vector <double> &dates){
     cout << "El archivo se leyó correctamente" << endl;
 }
 
-void printData(vector <string> &data, vector <double> &dates){
-    for(int i=0;i<data.size();i++){
-        cout << dates[i] << " " << data[i] << endl;
+void writeFile(vector <string> &data){
+    fstream dataBase;
+    dataBase.open("sortData.txt",ios::out);
+    if(dataBase.is_open()){
+        for(int i = 1;i <= data.size(); i++){
+            dataBase << data[i] << endl;
+        }
+        dataBase.close();
     }
 }
 
-void mergeOrder(vector<double> &dates, vector<string> &data, int inicio, int mitad, int final){
+
+void printData(vector <string> &data, vector <double> &dates){
+    for(int i=0;i<data.size();i++){
+        cout << data[i] << endl;
+    }
+}
+
+void mergeOrder(vector<double> &dates, vector<string> &data, int start, int half, int end){
     vector<double> vI;
     vector<double> vD;
     vector<string> sI;
     vector<string> sD;
 
-    int numIzq = mitad - inicio + 1;
-    int numDer = final - mitad;
+    int numIzq = half - start + 1;
+    int numDer = end - half;
 
     for(int i = 0; i < numIzq; i++){
-     vI.push_back(dates[inicio + i]);
-     sI.push_back(data[inicio + i]);
+     vI.push_back(dates[start + i]);
+     sI.push_back(data[start + i]);
     }
     for(int i = 0; i < numDer; i++){
-        vD.push_back(dates[mitad + 1 + i]);
-        sD.push_back(data[mitad + 1 + i]);
+        vD.push_back(dates[half + 1 + i]);
+        sD.push_back(data[half + 1 + i]);
     }
 
     double i = 0;
     double j = 0; 
-    double k = inicio;
+    double k = start;
 
     while(i < numIzq && j < numDer){
         if (vI[i] <= vD[j]){
@@ -100,31 +112,29 @@ void mergeOrder(vector<double> &dates, vector<string> &data, int inicio, int mit
     }
 }
 
-void mergeOrden(vector<double> &dates, vector<string> &data, int inicio, int final){
-    if(inicio < final){
-        int mitad = inicio + (final - inicio) / 2;
-        mergeOrden(dates, data, inicio, mitad);
-        mergeOrden(dates, data, mitad + 1, final);
-        mergeOrder(dates, data, inicio, mitad, final);
+void mergeSort(vector<double> &dates, vector<string> &data, int start, int end){
+    if(start < end){
+        int half = start + (end - start) / 2;
+        mergeSort(dates, data, start, half);
+        mergeSort(dates, data, half + 1, end);
+        mergeOrder(dates, data, start, half, end);
     }
 }
 
 
 int main(){
-    //ifstream archivoLog("bitacora.txt");
-    string resgistro;
-
-    string log[5];
     vector <string> myVector;
     vector <string> data;
     vector <double> dates;
 
-    lecturaArchivo(data, dates);
-    cout << "La lectura de archivos se ha realizado correctamente" << endl;
-    cout << "Organizando......" << endl;
-    mergeOrden(dates, data, 0, dates.size()-1);
-    printData(data, dates); 
+    fileReading(data, dates);
+    cout << "The file lecture has begun" << endl;
+    cout << "Organizing......" << endl;
+    mergeSort(dates, data, 0, dates.size()-1);
+    cout << "The sorting has been completed" << endl;
+    writeFile(data);
+    cout << "The data has been saved in the sortData.txt file" << endl;
+    cout << "Which data would you like to search?" << endl;
+    //printData(data, dates); 
     return 0;
 }
-
-// prueba
