@@ -18,7 +18,7 @@ int dictionary(string mes){
         }
     }
     return index;
-}
+} //Time Complexity O(n^2)
 
 void fileReading(vector <string> &data, vector <double> &dates){
     ifstream dataBase;
@@ -47,7 +47,7 @@ void fileReading(vector <string> &data, vector <double> &dates){
         dataBase.close();
     }
     cout << "El archivo se leyó correctamente" << endl;
-}
+} //Time Complexity O(n)
 
 void writeFile(vector <string> &data, vector <double> &dates){
     fstream dataBase;
@@ -58,14 +58,14 @@ void writeFile(vector <string> &data, vector <double> &dates){
         }
         dataBase.close();
     }
-}
+} //Time Complexity O(n^2)
 
 
 void printData(vector <string> &data, vector <double> &dates){
     for(int i=0;i<data.size();i++){
         cout << data[i] << endl;
     }
-}
+} //Time Complexity O(n)
 
 void mergeOrder(vector<double> &dates, vector<string> &data, int start, int half, int end){
     vector<double> vI;
@@ -114,7 +114,7 @@ void mergeOrder(vector<double> &dates, vector<string> &data, int start, int half
         i++;
         k++;
     }
-}
+} //Time Complexity O(n log n)
 
 void mergeSort(vector<double> &dates, vector<string> &data, int start, int end){
     if(start < end){
@@ -123,18 +123,18 @@ void mergeSort(vector<double> &dates, vector<string> &data, int start, int end){
         mergeSort(dates, data, half + 1, end);
         mergeOrder(dates, data, start, half, end);
     }
-}
+} 
 
 void sequentialSearch(double day, string month, vector<double> &dates, vector<string> &data){
     double numMonth = dictionary(month);
     double calculusMax = numMonth + ((day+1)/100) + ((24*60*60)/100000000) + ((60*60)/100000000) + ((60)/100000000);;
     double calculusMin = numMonth + (day/100);
     for (int i = 0; i <= dates.size(); i++){
-        if (dates[i] > calculusMin && dates[i] < calculusMax){
+        if (dates[i] >= calculusMin && dates[i] < calculusMax){
                 cout << data[i] << endl;
         }
     }
-}
+} // Time Complexity O(n^2)
 
 
 int main(){
