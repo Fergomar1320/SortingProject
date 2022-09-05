@@ -3,6 +3,10 @@
 #include <vector>
 #include <string>
 
+//Sorting and searching algorithm
+//Nolberto Castro Sánchez A01641501
+//Fernando Gómez Martínez A01641228
+
 using namespace std;
 
 int dictionary(string mes){
