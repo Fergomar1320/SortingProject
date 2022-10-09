@@ -29,7 +29,7 @@ void fileReading(vector <string> &data, vector <double> &hashvalues){
         }
         dataBase.close();
     }
-    cout << "El archivo se leyó correctamente" << endl;
+    cout << "The file was read correctly" << endl;
 } //Time Complexity O(n)
 
 void writeFile(vector <string> &data, vector <double> &hashvalues){
@@ -110,14 +110,11 @@ void sequentialSearch(vector<double> &hashvalues, vector<string> &data){
     cin >> N1 >> symbol >> N2 >> symbol >> N3 >> symbol >> N4 >> symbol >> N5;
     double firstValue = static_cast<double>(N1) + (static_cast<double>(N2)/100) + 
     (static_cast<double>(N3)/100000) + (static_cast<double>(N4)/10000000) + (static_cast<double>(N5)/1000000000);
-    cout << firstValue << endl;
-    
 
     cout << "Write the second ip" << endl;
     cin >> N6 >> symbol >> N7 >> symbol >> N8 >> symbol >> N9 >> symbol >> N10;
     double secondValue = static_cast<double>(N6) + (static_cast<double>(N7)/100) + 
     (static_cast<double>(N8)/100000) + (static_cast<double>(N9)/10000000) + (static_cast<double>(N10)/1000000000);
-    cout << secondValue << endl;
 
     cout << "\nHere are the search results: \n" << endl;
     for (int i = 0; i <= hashvalues.size(); i++){
