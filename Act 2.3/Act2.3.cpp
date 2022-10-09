@@ -9,100 +9,6 @@
 
 using namespace std;
 
-template <class T> class Node{
-    private:
-        T data;
-        int ip;
-        Node* next;
-        Node* prev;
-    public:
-        Node(T newData, int newIp, Node* nextNode, Node* prevNode){
-            this->data = newData;
-            this->next = nextNode;
-            this->prev = prevNode;
-            this->ip = newIp;
-        }//Complexity O(1)
-        Node(T newData){
-            this->data = newData;
-            this->next = NULL;
-            this->prev = NULL;
-            this->ip = 0;
-        }//Complexity O(1)
-        void setData(T newData){
-            this->data = newData;
-        } //Complexity O(1)
-        T getData(){
-            return this->data;
-        } //Complexity O(1)
-        void setNext(Node *nextNode){
-            this->next = nextNode;
-            
-        }//Complexity O(1)
-        void setPrev(Node *prevNode){
-            this->prev = prevNode;
-        }//Complexity O(1)
-        Node* getNext(){
-            return this->next;
-        }//Complexity O(1)
-        Node* getPrev(){
-            return this->prev;
-        }//Complexity O(1)
-};
-
-template<class T> class doubleLinkedList{
-    private:
-        Node<T> *head;
-        Node<T> *tale;
-        int listLong;
-    public:
-        doubleLinkedList(){
-            head = NULL;
-            tale = NULL;
-        }   //Complexity O(1)
-
-        ~doubleLinkedList(){
-        } //Complexity O(1)
-
-        Node<T>* getTale(){
-            return tale;
-        } //Complexity O(1)
-
-        void addToList(T data,int ip){
-            if (head == NULL){
-                Node<T>* temp = new Node<T>(data,ip,head,tale);
-                this->head = temp;
-                this->tale = temp;
-            }else{
-                Node<T>* newNode = new Node<T>(data,ip,NULL,tale);
-                tale->setNext(newNode);
-                tale = newNode;
-            }
-            listLong++;
-        } //Complexity O(1)
-
-        void printList(){
-            Node<T>* currentNode = this->head;
-            while(currentNode != NULL){
-                cout << currentNode->getData() << endl;
-                currentNode = currentNode->getNext();
-            }
-            cout << "NULL\n" << endl;
-        } //Complexity O(n)
-
-        Node<T>* searchNode(T valueTarget){
-            Node<T>* currentNode = this->head;
-
-            while(currentNode){
-                if(currentNode->getData() == valueTarget){
-                    return currentNode;
-                }
-                currentNode = currentNode->getNext();
-            }
-
-            return NULL;
-        } //Complexity O(n)
-};
-
 void fileReading(vector <string> &data, vector <double> &hashvalues){
     ifstream dataBase;
     dataBase.open("database.txt");
@@ -114,9 +20,9 @@ void fileReading(vector <string> &data, vector <double> &hashvalues){
             //Reading the complete file and saving data in variables;
             dataBase >> month >> day >> time >> oneN >> sillychar >> twoN >> sillychar >> threeN >> sillychar >> fourN >> sillychar >> fiveN;
             getline(dataBase, error); 
-            double hashValue = static_cast<double>(oneN) + (static_cast<double>(twoN)/100) + (static_cast<double>(threeN)/100000) + (static_cast<double>(fourN)/100000000); //+ fiveN;
+            double hashValue = static_cast<double>(oneN) + (static_cast<double>(twoN)/100) + (static_cast<double>(threeN)/100000) + (static_cast<double>(fourN)/10000000) + (static_cast<double>(fiveN)/1000000000);
             completeLine = month + " " + day + " " + time + " " + to_string(oneN) + "." + to_string(twoN) + "." + to_string(threeN) + "." 
-            + to_string(fourN) + ":" + to_string(fiveN) + error + to_string(hashValue);
+            + to_string(fourN) + ":" + to_string(fiveN) + error;
             data.push_back(completeLine);
             hashvalues.push_back(hashValue);
             //DoubleList.addToList(completeLine, hashValue);
@@ -195,18 +101,45 @@ void mergeSort(vector<double> &hashvalues, vector<string> &data, int start, int 
     }
 } 
 
+void sequentialSearch(vector<double> &hashvalues, vector<string> &data){
+
+    int N1, N2, N3, N4, N5 , N6, N7, N8, N9, N10;
+    char symbol;
+
+    cout << "\nWrite the first ip" << endl;
+    cin >> N1 >> symbol >> N2 >> symbol >> N3 >> symbol >> N4 >> symbol >> N5;
+    double firstValue = static_cast<double>(N1) + (static_cast<double>(N2)/100) + 
+    (static_cast<double>(N3)/100000) + (static_cast<double>(N4)/10000000) + (static_cast<double>(N5)/1000000000);
+    cout << firstValue << endl;
+    
+
+    cout << "Write the second ip" << endl;
+    cin >> N6 >> symbol >> N7 >> symbol >> N8 >> symbol >> N9 >> symbol >> N10;
+    double secondValue = static_cast<double>(N6) + (static_cast<double>(N7)/100) + 
+    (static_cast<double>(N8)/100000) + (static_cast<double>(N9)/10000000) + (static_cast<double>(N10)/1000000000);
+    cout << secondValue << endl;
+
+    cout << "\nHere are the search results: \n" << endl;
+    for (int i = 0; i <= hashvalues.size(); i++){
+        if (hashvalues[i] >= firstValue && hashvalues[i] <= secondValue){
+                cout << data[i] << endl;
+        }
+    }
+
+} // Time Complexity O(n^2)
+
 int main(){
     vector <string> data;
     vector <double> hashvalues;
-    doubleLinkedList<string> firstList;
-
     cout << "The file lecture has begun" << endl;
     fileReading(data, hashvalues);
     cout << "Organizing......" << endl;
     mergeSort(hashvalues, data, 0, hashvalues.size()-1);
     cout << "The sorting has been completed" << endl;
     writeFile(data, hashvalues);
-    firstList.printList();
+    cout << "Creating Double Linked List" << endl;
+    sequentialSearch(hashvalues, data);
+    cout << "\nThank you very much" << endl;
     return 0;
 }
 
